@@ -9,7 +9,7 @@ export const decodeByVinDecoderz = async (vin: string) => {
         }
         debugger;
         const req = await axios.post(
-            'http://127.0.0.1:8000/extract_info',
+            import.meta.env.VITE_MODEL_API_URL,
             {
                 url: 'https://vehiclereport.me/get-report',
                 vin: vin
