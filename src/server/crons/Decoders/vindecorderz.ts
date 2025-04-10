@@ -37,8 +37,6 @@ export const getVinsNoFromVinDecoderz = async () => {
                         where: { vin },
                         defaults: {
                             vin,
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
                         },
                     });
 
