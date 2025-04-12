@@ -29,7 +29,7 @@ app.add_middleware(
 )
 
 
-@api_router.middleware("http")
+@app.middleware("http")
 async def validate_request(request: Request, call_next):
     content_type = request.headers.get('Content-Type', '')
 
