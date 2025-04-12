@@ -4,3 +4,4 @@ model==0.6.0
 pydantic==2.11.3
 selenium==4.31.0
 undetected_chromedriver==3.5.5
+uvicorn>=0.22.0
