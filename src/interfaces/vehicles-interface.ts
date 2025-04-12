@@ -10,5 +10,7 @@ export interface VehiclesInterface {
     fuel?: string;
     engine?: string;
     transmission?: string;
+    seats?: string;
+    doors?: string;
     drive?: string;
 }

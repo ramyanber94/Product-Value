@@ -7,7 +7,6 @@ export const decodeByVinDecoderz = async (vin: string) => {
         if (checkInDatabase.success) {
             return { success: true, data: checkInDatabase.data };
         }
-        debugger;
         const req = await axios.post(
             import.meta.env.VITE_MODEL_API_URL,
             {

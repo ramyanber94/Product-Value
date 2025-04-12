@@ -16,7 +16,33 @@ const MarketValueAverage = z.object({
 export const fetchContactCars = server$(async (vin: string) => {
   try {
     const req = await decodeByVinDecoderz(vin);
+
     let data = "";
+    if (
+      req.data.make.toLowerCase().includes("select") ||
+      req.data.model.toLowerCase().includes("select") ||
+      req.data.year.toString().includes("select")
+    ) {
+      const saveData = await addVehiclesToDB({
+        make: req.data.make,
+        model: req.data.model,
+        year: req.data.year,
+        trim: req.data.trim,
+        body: req.data.body,
+        seats: req.data.seats,
+        doors: req.data.doors,
+        hp: req.data.hp,
+        vin: vin,
+        fuel: req.data.fuel,
+        engine: req.data.engine,
+        transmission: req.data.transmission,
+        drive: req.data.driveTrain,
+      });
+      if (!saveData.success) {
+        console.error("Error saving data to database:", saveData.message);
+      }
+      return JSON.stringify({ success: true, data: req.data });
+    }
     if (req.success) {
       const prompt = `What is the max market value and min market value and average market value of a ${req.data.year} ${req.data.make} ${req.data.model} ${req.data.trim} in Egypt in ${
         // current year
@@ -37,24 +63,6 @@ export const fetchContactCars = server$(async (vin: string) => {
         data = response.output_text;
       } catch (error: any) {
         console.error("Error fetching data from OpenAI:", error.message);
-      }
-
-      const saveData = await addVehiclesToDB({
-        make: req.data.make,
-        model: req.data.model,
-        year: req.data.year,
-        trim: req.data.trim,
-        body: req.data.body,
-        hp: req.data.hp,
-        vin: vin,
-        fuel: req.data.fuel,
-        engine: req.data.engine,
-        transmission: req.data.transmission,
-        drive: req.data.driveTrain,
-      });
-
-      if (!saveData) {
-        console.error("Error saving data to database");
       }
 
       const cleanPrompt = `
@@ -113,28 +121,40 @@ export default component$(() => {
     // check if minPrice and maxPrice and average are equal to each other
 
     if (marketValue?.minPrice && marketValue?.maxPrice) {
-      finalMarketValue.value = `The market value of the car is between ${parseFloat(
-        marketValue.minPrice
-      ).toLocaleString("en-US", {
-        style: "currency",
-        currency: marketValue.currency,
-      })} and ${parseFloat(marketValue.maxPrice).toLocaleString("en-US", {
-        style: "currency",
-        currency: marketValue.currency,
-      })}. 
-      The average market value is ${parseFloat(
-        marketValue.average
-      ).toLocaleString("en-US", {
-        style: "currency",
-        currency: marketValue.currency,
-      })}.`;
+      finalMarketValue.value = `The market value of the car is between ${
+        parseFloat(marketValue.minPrice)
+          .toLocaleString("en-US", {
+            style: "currency",
+            currency: marketValue.currency,
+          })
+          .split(".")[0]
+      } and ${
+        parseFloat(marketValue.maxPrice)
+          .toLocaleString("en-US", {
+            style: "currency",
+            currency: marketValue.currency,
+          })
+          .split(".")[0]
+      }. 
+      The average market value is ${
+        parseFloat(marketValue?.average)
+          .toLocaleString("en-US", {
+            style: "currency",
+            currency: marketValue.currency,
+          })
+          .split(".")[0]
+      }.`;
     } else {
-      finalMarketValue.value = `The market value of the car is ${parseFloat(
-        marketValue.average
-      ).toLocaleString("en-US", {
-        style: "currency",
-        currency: marketValue.currency,
-      })}.`;
+      if (marketValue?.average) {
+        finalMarketValue.value = `The market value of the car is ${
+          parseFloat(marketValue?.average)
+            .toLocaleString("en-US", {
+              style: "currency",
+              currency: marketValue.currency,
+            })
+            .split(".")[0]
+        }.`;
+      }
     }
   });
 
@@ -201,22 +221,28 @@ export default component$(() => {
             <tbody>
               <tr>
                 <td class="border border-gray-200 px-4 py-2 text-center">
-                  {vinDecodeResult.value.make.toLowerCase().includes("select")
+                  {vinDecodeResult.value?.make
+                    ?.toLowerCase()
+                    ?.includes("select")
                     ? "N/A"
                     : vinDecodeResult.value.make}
                 </td>
                 <td class="border border-gray-200 px-4 py-2 text-center">
-                  {vinDecodeResult.value.model.toLowerCase().includes("select")
+                  {vinDecodeResult.value?.model
+                    ?.toLowerCase()
+                    ?.includes("select")
                     ? "N/A"
                     : vinDecodeResult.value.model}
                 </td>
                 <td class="border border-gray-200 px-4 py-2 text-center">
-                  {vinDecodeResult.value.year.includes("select")
+                  {vinDecodeResult.value?.year?.toString()?.includes("select")
                     ? "N/A"
                     : vinDecodeResult.value.year}
                 </td>
                 <td class="border border-gray-200 px-4 py-2 text-center">
-                  {vinDecodeResult.value.trim.includes("select")
+                  {vinDecodeResult.value?.trim
+                    ?.toLowerCase()
+                    ?.includes("select")
                     ? "N/A"
                     : vinDecodeResult.value.trim}
                 </td>
@@ -281,24 +307,22 @@ export default component$(() => {
               </table>
             )}
 
-          {vinDecodeResult.value.make &&
-            vinDecodeResult.value.model &&
-            vinDecodeResult.value.year && (
-              <div class="mt-10 w-full max-w-4xl bg-white shadow-md rounded-lg p-6">
-                <h2 class="text-xl font-bold text-center">Market Value</h2>
-                <p class="text-gray-600 text-center mt-2">
-                  {finalMarketValue.value}
-                </p>
-                <p class="text-gray-600 text-center mt-2">
-                  The market value is based on the current year and the average
-                  market value in Egypt.
-                </p>
-                <p class="text-gray-600 text-center mt-2">
-                  Please note that the market value may vary based on the
-                  condition of the car and other factors.
-                </p>
-              </div>
-            )}
+          {finalMarketValue.value && (
+            <div class="mt-10 w-full max-w-4xl bg-white shadow-md rounded-lg p-6">
+              <h2 class="text-xl font-bold text-center">Market Value</h2>
+              <p class="text-gray-600 text-center mt-2">
+                {finalMarketValue.value}
+              </p>
+              <p class="text-gray-600 text-center mt-2">
+                The market value is based on the current year and the average
+                market value in Egypt.
+              </p>
+              <p class="text-gray-600 text-center mt-2">
+                Please note that the market value may vary based on the
+                condition of the car and other factors.
+              </p>
+            </div>
+          )}
         </>
       )}
 
@@ -333,11 +357,12 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
+  title: "Welcome to GCC VIN Decoder and Market Value",
   meta: [
     {
       name: "description",
-      content: "Qwik site description",
+      content:
+        "VIN Decoder and Market Value for GCC cars specifically for Egypt and KSA and UAE and Qatar and Oman and Bahrain",
     },
   ],
 };

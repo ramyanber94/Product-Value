@@ -9,16 +9,17 @@ from selenium.webdriver.common.by import By
 def extract_page_source_from_url(url: str, vin: str):
     """Extract page source from the given URL using undetected_chromedriver"""
     driver = uc.Chrome(headless=True)
-    # headless = True
 
     driver.get(url)
     input_field = driver.find_element(By.XPATH, "//input[@id='vin1']")
     # insert the VIN number into the input field
     input_field.send_keys(vin)
-    # click the submit button
-# click enter key
+
     input_field.send_keys(Keys.RETURN)
-    time.sleep(10)
+    # wait till make ul is loaded
+    makeTeaser = driver.find_element(By.XPATH, "//ul[@id='teaser_make']")
+    while not makeTeaser.is_displayed():
+        time.sleep(0.5)
     soup = BeautifulSoup(driver.page_source, 'html.parser')
 
     makeUl = soup.find("ul", id="teaser_make")

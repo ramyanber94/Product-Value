@@ -23,8 +23,13 @@ export const addVehiclesToDB = async (vehiclesList: VehiclesInterface) => {
                 },
             }
         );
-        return addList;
+        if (addList[1]) {
+            return { success: true, data: addList[0] };
+        } else {
+            return { success: false, message: "VIN already exists in the database" };
+        }
     } catch (error: any) {
-        console.log(error.message);
+        console.error("Error adding vehicle to database:", error.message);
+        return { success: false, message: error.message };
     }
 }
