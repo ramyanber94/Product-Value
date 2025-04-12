@@ -8,7 +8,7 @@ export const decodeByVinDecoderz = async (vin: string) => {
             return { success: true, data: checkInDatabase.data };
         }
         const req = await axios.post(
-            `${import.meta.env.VITE_MODEL_API_URL}/extract_info`,
+            `${import.meta.env.VITE_MODEL_API_URL}/extract_info/`,
             {
                 url: 'https://vehiclereport.me/get-report',
                 vin: vin

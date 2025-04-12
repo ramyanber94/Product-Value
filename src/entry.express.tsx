@@ -18,6 +18,7 @@ import render from "./entry.ssr";
 import express from "express";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
+import cors from "cors";
 // import { runCrons } from "./server/crons";
 // import sequelize from "./server/dbConnection";
 
@@ -40,6 +41,8 @@ const { router, notFound } = createQwikCity({
 });
 
 const app = express();
+
+app.use(cors());
 
 // Initialize the database connection
 // Write the cron job runner here
