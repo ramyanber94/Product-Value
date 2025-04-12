@@ -29,28 +29,6 @@ app.add_middleware(
 )
 
 
-@app.middleware("http")
-async def validate_request(request: Request, call_next):
-    content_type = request.headers.get('Content-Type', '')
-
-    # Skip content type validation for GET requests
-    if request.method == 'GET':
-        return await call_next(request)
-
-    # Allow common content types
-    if not content_type or (
-        'application/json' not in content_type and
-        'multipart/form-data' not in content_type and
-        'application/x-www-form-urlencoded' not in content_type
-    ):
-        return await call_next(request)  # Or raise HTTPException if you prefer
-
-    try:
-        return await call_next(request)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
 @api_router.get("/")
 async def root():
     """Root endpoint to check if the API is running"""
