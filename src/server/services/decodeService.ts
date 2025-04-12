@@ -8,7 +8,7 @@ export const decodeByVinDecoderz = async (vin: string) => {
             return { success: true, data: checkInDatabase.data };
         }
         const req = await axios.post(
-            import.meta.env.VITE_MODEL_API_URL,
+            `${import.meta.env.VITE_MODEL_API_URL}/extract_info`,
             {
                 url: 'https://vehiclereport.me/get-report',
                 vin: vin
@@ -18,12 +18,12 @@ export const decodeByVinDecoderz = async (vin: string) => {
         if (response.success) {
             return { success: true, data: response.data };
         } else {
-            console.error("Error in response:", response.message);
+            console.error("Error in response:", response);
             return { success: false, message: response.message };
         }
     }
     catch (error: any) {
-        console.error("Error fetching data:", error.message);
+        console.error("Error fetching data:", error);
         return { success: false, message: error.message };
     }
 }

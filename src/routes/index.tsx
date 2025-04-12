@@ -62,7 +62,7 @@ export const fetchContactCars = server$(async (vin: string) => {
         });
         data = response.output_text;
       } catch (error: any) {
-        console.error("Error fetching data from OpenAI:", error.message);
+        console.error("Error fetching data from OpenAI:", error);
       }
 
       const cleanPrompt = `
@@ -96,13 +96,13 @@ export const fetchContactCars = server$(async (vin: string) => {
         console.log("req.data", req.data);
         req.data.success = true;
       } catch (error: any) {
-        console.error("Error parsing response:", error.message);
+        console.error("Error parsing response:", error);
       }
 
       return JSON.stringify({ success: true, data: req.data });
     }
   } catch (error: any) {
-    console.error("Error fetching data:", error.message);
+    console.error("Error fetching data:", error);
     return JSON.stringify({ success: false, message: error.message });
   }
 });
