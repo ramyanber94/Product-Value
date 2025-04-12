@@ -1,5 +1,5 @@
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import APIRouter, FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from model.services.vindecoderz import extract_page_source_from_url
 from model.services.vehiclereport_me import extract_page_source_from_url as extract_page_source_from_url_vehiclereport
@@ -18,6 +18,7 @@ app = FastAPI(title="VIN, Model, and Engine Extractor API",
               description="Extract VIN, model, and engine from raw page text using a transformer model.",
               port=port,
               )
+api_router = APIRouter(prefix="/api")
 
 app.add_middleware(
     CORSMiddleware,
@@ -28,7 +29,7 @@ app.add_middleware(
 )
 
 
-@app.middleware("http")
+@api_router.middleware("http")
 async def validate_request(request: Request, call_next):
     content_type = request.headers.get('Content-Type', '')
 
@@ -50,13 +51,13 @@ async def validate_request(request: Request, call_next):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@app.get("/")
+@api_router.get("/")
 async def root():
     """Root endpoint to check if the API is running"""
     return {"message": "VIN, Model, and Engine Extractor API is running."}
 
 
-@app.post("/extract_info/")
+@api_router.post("/extract_info/")
 async def extract_info(request: UrlRequest):
     """FastAPI endpoint to extract VIN, model, and engine from the raw page text"""
 
@@ -71,3 +72,5 @@ async def extract_info(request: UrlRequest):
 
     # Step 2: Return the extracted information
     return {"success": True, "data": extracted_info}
+
+app.include_router(api_router)
