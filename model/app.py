@@ -1,8 +1,9 @@
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from model.services.vindecoderz import extract_page_source_from_url
 from model.services.vehiclereport_me import extract_page_source_from_url as extract_page_source_from_url_vehiclereport
+from fastapi.middleware.cors import CORSMiddleware
 
 
 class UrlRequest(BaseModel):
@@ -17,6 +18,25 @@ app = FastAPI(title="VIN, Model, and Engine Extractor API",
               description="Extract VIN, model, and engine from raw page text using a transformer model.",
               port=port,
               )
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Restrict in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.middleware("http")
+async def validate_request(request: Request, call_next):
+    try:
+        # Add your validation logic here
+        if not request.headers.get('Content-Type') == 'application/json':
+            raise HTTPException(status_code=400, detail="Invalid Content-Type")
+        return await call_next(request)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @app.get("/")

@@ -13,6 +13,7 @@ const sequelize = new Sequelize(`mssql://${username}:${password}@localhost:1433/
     logging: false,
     dialectOptions: {
         encrypt: true,
+        trustServerCertificate: true, // Change to true for local dev / self-signed certs
     },
 });
 
