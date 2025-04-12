@@ -13,15 +13,8 @@ const sequelize = new Sequelize(`mssql://${username}:${password}@localhost:1433/
     logging: false,
     port: 1433, // Default MSSQL port
     dialectOptions: {
-        encrypt: false,
+        encrypt: true,
         trustServerCertificate: true, // Change to true for local dev / self-signed certs
-        requestTimeout: 30000, // 30 seconds
-    },
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
     }
 });
 
