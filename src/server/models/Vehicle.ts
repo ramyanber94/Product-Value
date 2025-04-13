@@ -68,6 +68,128 @@ const Vehicles: ModelStatic<Model<VehiclesInterface>> = sequelize.define("vehicl
             this.setDataValue('year', numValue);
         }
     },
+    doors: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        set(value: string | null) {
+            if (!value) {
+                this.setDataValue('doors', undefined);
+                return;
+            }
+            const val = value.trim();
+            if (val.toLowerCase().includes('select')) {
+                throw new Error('Potential SQL injection detected');
+            }
+            this.setDataValue('doors', val);
+        }
+    },
+    seats: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        set(value: string | null) {
+            if (!value) {
+                this.setDataValue('seats', undefined);
+                return;
+            }
+            const val = value.trim();
+            if (val.toLowerCase().includes('select')) {
+                throw new Error('Potential SQL injection detected');
+            }
+            this.setDataValue('seats', val);
+        }
+    },
+    hp: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        set(value: string | null) {
+            if (!value) {
+                this.setDataValue('hp', undefined);
+                return;
+            }
+            const val = value.trim();
+            if (val.toLowerCase().includes('select')) {
+                throw new Error('Potential SQL injection detected');
+            }
+            this.setDataValue('hp', val);
+        }
+    },
+    drive: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        set(value: string | null) {
+            if (!value) {
+                this.setDataValue('drive', undefined);
+                return;
+            }
+            const val = value.trim();
+            if (val.toLowerCase().includes('select')) {
+                throw new Error('Potential SQL injection detected');
+            }
+            this.setDataValue('drive', val);
+        }
+    },
+    fuel: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        set(value: string | null) {
+            if (!value) {
+                this.setDataValue('fuel', undefined);
+                return;
+            }
+            const val = value.trim();
+            if (val.toLowerCase().includes('select')) {
+                throw new Error('Potential SQL injection detected');
+            }
+            this.setDataValue('fuel', val);
+        }
+    },
+    transmission: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        set(value: string | null) {
+            if (!value) {
+                this.setDataValue('transmission', undefined);
+                return;
+            }
+            const val = value.trim();
+            if (val.toLowerCase().includes('select')) {
+                throw new Error('Potential SQL injection detected');
+            }
+            this.setDataValue('transmission', val);
+        }
+    },
+    body: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        set(value: string | null) {
+            if (!value) {
+                this.setDataValue('body', undefined);
+                return;
+            }
+            const val = value.trim();
+            if (val.toLowerCase().includes('select')) {
+                throw new Error('Potential SQL injection detected');
+            }
+            this.setDataValue('body', val);
+        }
+    },
+    trim: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        set(value: string | null) {
+            if (!value) {
+                this.setDataValue('trim', undefined);
+                return;
+            }
+            const val = value.trim();
+            if (val.toLowerCase().includes('select')) {
+                throw new Error('Potential SQL injection detected');
+            }
+            this.setDataValue('trim', val);
+        }
+    },
+
+
     vin: {
         type: DataTypes.STRING(17), // Standard VIN length is 17
         allowNull: false, // Should never be null
