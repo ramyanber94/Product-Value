@@ -35,7 +35,7 @@ async def root():
     return {"message": "VIN, Model, and Engine Extractor API is running."}
 
 
-@api_router.post("/extract_info/")
+@api_router.post("/extract_info")
 async def extract_info(request: UrlRequest):
     """FastAPI endpoint to extract VIN, model, and engine from the raw page text"""
 
