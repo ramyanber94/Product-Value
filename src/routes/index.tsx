@@ -86,7 +86,6 @@ export const fetchContactCars = server$(async (vin: string) => {
         const marketValue: any = response2.choices[0].message.content;
 
         const jsonMarketValue = JSON.parse(marketValue);
-        console.log("jsonMarketValue", jsonMarketValue);
         req.data.marketValue = {
           minPrice: jsonMarketValue.minPrice,
           maxPrice: jsonMarketValue.maxPrice,
