@@ -18,30 +18,30 @@ export const fetchContactCars = server$(async (vin: string) => {
     const req = await decodeByVinDecoderz(vin);
 
     let data = "";
+    const saveData = await addVehiclesToDB({
+      make: req.data.make,
+      model: req.data.model,
+      year: req.data.year,
+      trim: req.data.trim,
+      body: req.data.body,
+      seats: req.data.seats,
+      doors: req.data.doors,
+      hp: req.data.hp,
+      vin: vin,
+      fuel: req.data.fuel,
+      engine: req.data.engine,
+      transmission: req.data.transmission,
+      drive: req.data.driveTrain,
+    });
+    if (!saveData.success) {
+      console.error("Error saving data to database:", saveData.message);
+    }
     if (
       req.data.make.toLowerCase().includes("select") ||
       req.data.model.toLowerCase().includes("select") ||
       req.data.year.toString().includes("select")
     ) {
-      const saveData = await addVehiclesToDB({
-        make: req.data.make,
-        model: req.data.model,
-        year: req.data.year,
-        trim: req.data.trim,
-        body: req.data.body,
-        seats: req.data.seats,
-        doors: req.data.doors,
-        hp: req.data.hp,
-        vin: vin,
-        fuel: req.data.fuel,
-        engine: req.data.engine,
-        transmission: req.data.transmission,
-        drive: req.data.driveTrain,
-      });
-      if (!saveData.success) {
-        console.error("Error saving data to database:", saveData.message);
-      }
-      return JSON.stringify({ success: true, data: req.data });
+      return JSON.stringify({ success: true, data: saveData.data?.toJSON() });
     }
     if (req.success) {
       const prompt = `What is the max market value and min market value and average market value of a ${req.data.year} ${req.data.make} ${req.data.model} ${req.data.trim} in Egypt in ${
@@ -93,12 +93,10 @@ export const fetchContactCars = server$(async (vin: string) => {
           average: jsonMarketValue.average,
           currency: jsonMarketValue.currency,
         };
-        console.log("req.data", req.data);
         req.data.success = true;
       } catch (error: any) {
         console.error("Error parsing response:", error);
       }
-
       return JSON.stringify({ success: true, data: req.data });
     }
   } catch (error: any) {
