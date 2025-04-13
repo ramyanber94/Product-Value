@@ -22,6 +22,12 @@ const sequelize = new Sequelize(`mssql://${username}:${password}@localhost:1433/
     },
 
 });
-
+sequelize.authenticate().then(() => {
+    console.log('Connection to MSSQL database has been established successfully.');
+}
+).catch((err) => {
+    console.error('Unable to connect to the database:', err);
+}
+)
 
 export default sequelize
