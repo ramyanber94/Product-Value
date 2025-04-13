@@ -196,7 +196,7 @@ export default component$(() => {
               isLoading.value = false;
             }}
           >
-            Run Contact Cars Cron
+            {isLoading.value ? "Loading..." : "Decode VIN"}
           </button>
         </div>
       </div>
@@ -253,55 +253,64 @@ export default component$(() => {
             vinDecodeResult.value.seats &&
             vinDecodeResult.value.fuel &&
             vinDecodeResult.value.transmission && (
-              <table class="mt-10 w-full max-w-4xl bg-white shadow-md rounded-lg border border-gray-200">
-                <caption class="text-lg font-bold text-center p-4">
+              <div class="mt-10 w-full overflow-x-auto flex flex-col items-center justify-center">
+                <p class="text-lg font-bold text-center p-4 sticky left-0 right-0 z-10">
                   More Details
-                </caption>
-                <thead class="bg-gray-100">
-                  <tr class="border border-gray-200">
-                    <th class="border border-gray-200 px-4 py-2">Body Type</th>
-                    <th class="border border-gray-200 px-4 py-2">
-                      Engine Size
-                    </th>
-                    <th class="border border-gray-200 px-4 py-2">Hp</th>
-                    <th class="border border-gray-200 px-4 py-2">Seats</th>
-                    <th class="border border-gray-200 px-4 py-2">Fuel</th>
-                    <th class="border border-gray-200 px-4 py-2">
-                      Transmission
-                    </th>
-                    <th class="border border-gray-200 px-4 py-2">Drive Type</th>
-                    <th class="border border-gray-200 px-4 py-2">Doors</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="border border-gray-200 px-4 py-2 text-center">
-                      {vinDecodeResult.value.body}
-                    </td>
-                    <td class="border border-gray-200 px-4 py-2 text-center">
-                      {vinDecodeResult.value.engine}
-                    </td>
-                    <td class="border border-gray-200 px-4 py-2 text-center">
-                      {vinDecodeResult.value.hp}
-                    </td>
-                    <td class="border border-gray-200 px-4 py-2 text-center">
-                      {vinDecodeResult.value.seats}
-                    </td>
-                    <td class="border border-gray-200 px-4 py-2 text-center">
-                      {vinDecodeResult.value.fuel}
-                    </td>
-                    <td class="border border-gray-200 px-4 py-2 text-center">
-                      {vinDecodeResult.value.transmission}
-                    </td>
-                    <td class="border border-gray-200 px-4 py-2 text-center">
-                      {vinDecodeResult.value.driveTrain}
-                    </td>
-                    <td class="border border-gray-200 px-4 py-2 text-center">
-                      {vinDecodeResult.value.doors}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                </p>
+                <table
+                  class="table-auto overflow-scroll w-full max-w-4xl bg-white shadow-md rounded-lg border border-gray-200 
+                m-[0 auto]"
+                >
+                  <thead class="bg-gray-100">
+                    <tr class="border border-gray-200">
+                      <th class="border border-gray-200 px-4 py-2">
+                        Body Type
+                      </th>
+                      <th class="border border-gray-200 px-4 py-2">
+                        Engine Size
+                      </th>
+                      <th class="border border-gray-200 px-4 py-2">Hp</th>
+                      <th class="border border-gray-200 px-4 py-2">Seats</th>
+                      <th class="border border-gray-200 px-4 py-2">Fuel</th>
+                      <th class="border border-gray-200 px-4 py-2">
+                        Transmission
+                      </th>
+                      <th class="border border-gray-200 px-4 py-2">
+                        Drive Type
+                      </th>
+                      <th class="border border-gray-200 px-4 py-2">Doors</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="border border-gray-200 px-4 py-2 text-center">
+                        {vinDecodeResult.value.body}
+                      </td>
+                      <td class="border border-gray-200 px-4 py-2 text-center">
+                        {vinDecodeResult.value.engine}
+                      </td>
+                      <td class="border border-gray-200 px-4 py-2 text-center">
+                        {vinDecodeResult.value.hp}
+                      </td>
+                      <td class="border border-gray-200 px-4 py-2 text-center">
+                        {vinDecodeResult.value.seats}
+                      </td>
+                      <td class="border border-gray-200 px-4 py-2 text-center">
+                        {vinDecodeResult.value.fuel}
+                      </td>
+                      <td class="border border-gray-200 px-4 py-2 text-center">
+                        {vinDecodeResult.value.transmission}
+                      </td>
+                      <td class="border border-gray-200 px-4 py-2 text-center">
+                        {vinDecodeResult.value.driveTrain}
+                      </td>
+                      <td class="border border-gray-200 px-4 py-2 text-center">
+                        {vinDecodeResult.value.doors}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             )}
 
           {finalMarketValue.value && (
