@@ -1,0 +1,32 @@
+{
+  "de": {
+    "Hello from {$PH}!": "Hallo von {$PH}!",
+    "Use the following links to change the translation.": "Verwenden Sie die folgenden Links, um die Übersetzung zu ändern.",
+    "Translation is performed as part of the build step so translated strings are inlined into the application, there is no need to load or look them up at runtime. However, these advantages mean that the user cannot change the language without refreshing the page.": "Die Übersetzung wird als Teil des Erstellungsschritts durchgeführt, so dass die übersetzten Strings in die Anwendung integriert sind und nicht erst zur Laufzeit geladen oder nachgeschlagen werden müssen. Diese Vorteile bedeuten jedoch, dass der Benutzer die Sprache nicht ändern kann, ohne die Seite zu aktualisieren."
+  },
+  "fr": {
+    "Hello from {$PH}!": "Bonjour de {$PH}!",
+    "Use the following links to change the translation.": "Utilisez les liens suivants pour modifier la traduction.",
+    "Translation is performed as part of the build step so translated strings are inlined into the application, there is no need to load or look them up at runtime. However, these advantages mean that the user cannot change the language without refreshing the page.": "La traduction est effectuée dans le cadre de l'étape de construction, de sorte que les chaînes traduites sont intégrées dans l'application, sans qu'il soit nécessaire de les charger ou de les consulter au moment de l'exécution. Toutefois, ces avantages signifient que l'utilisateur ne peut pas changer de langue sans rafraîchir la page.",
+    "This is a test translation for the {$PH} plugin.": "Il s'agit d'une traduction test pour le plugin {$PH}."
+  },
+  "ar": {
+    "Hello from {$PH}!": "مرحبًا بكم من {$PH}!",
+    "Use the following links to change the translation.": "استخدم الروابط التالية لتغيير الترجمة.",
+    "Translation is performed as part of the build step so translated strings are inlined into the application, there is no need to load or look them up at runtime. However, these advantages mean that the user cannot change the language without refreshing the page.": "يتم تنفيذ الترجمة كجزء من خطوة الإنشاء بحيث يتم تضمين السلاسل المترجمة في التطبيق، ولا حاجة لتحميلها أو البحث عنها في وقت التشغيل. ومع ذلك، فإن هذه المزايا تعني أن المستخدم لا يمكنه تغيير اللغة دون تحديث الصفحة."
+  },
+  "es": {
+    "Hello from {$PH}!": "¡Hola desde {$PH}!",
+    "Use the following links to change the translation.": "Utilice los siguientes enlaces para cambiar la traducción.",
+    "Translation is performed as part of the build step so translated strings are inlined into the application, there is no need to load or look them up at runtime. However, these advantages mean that the user cannot change the language without refreshing the page.": "La traducción se realiza como parte del paso de compilación, por lo que las cadenas traducidas están integradas en la aplicación, sin necesidad de cargarlas o buscarlas en tiempo de ejecución. Sin embargo, estas ventajas significan que el usuario no puede cambiar el idioma sin actualizar la página.",
+    "This is a test translation for the {$PH} plugin.": "Se trata de una traducción de prueba del plugin {$PH}."
+  },
+  "it": {
+    "Hello from {$PH}!": "Ciao da {$PH}!",
+    "Use the following links to change the translation.": "Per modificare la traduzione, utilizzare i seguenti link.",
+    "Translation is performed as part of the build step so translated strings are inlined into the application, there is no need to load or look them up at runtime. However, these advantages mean that the user cannot change the language without refreshing the page.": "La traduzione viene eseguita come parte della fase di compilazione, quindi le stringhe tradotte vengono inserite nell'applicazione, senza bisogno di caricarle o cercarle in fase di esecuzione. Tuttavia, questi vantaggi significano che l'utente non può cambiare la lingua senza aggiornare la pagina."
+  },
+  "en": {
+    "This is a test translation for the {$PH} plugin.": "This is a test translation for the {$PH} plugin."
+  }
+}

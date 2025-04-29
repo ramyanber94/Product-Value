@@ -1,0 +1,6 @@
+{
+  "locale": "en",
+  "translations": {
+    "description": "This is a test translation for the {$PH} plugin."
+  }
+}

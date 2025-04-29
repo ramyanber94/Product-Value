@@ -6,7 +6,7 @@ export interface VehiclesInterface {
     trim?: string;
     body?: string;
     hp?: string;
-    vin?: string;
+    vin: string;
     fuel?: string;
     engine?: string;
     transmission?: string;

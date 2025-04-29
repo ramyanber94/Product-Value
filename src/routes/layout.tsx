@@ -1,17 +1,45 @@
-import { component$, Slot } from "@builder.io/qwik";
+import {
+  component$,
+  Slot,
+  useContextProvider,
+  useSignal,
+} from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
-
-export const onGet: RequestHandler = async ({ cacheControl }) => {
-  // Control caching for this request for best performance and to reduce hosting costs:
-  // https://qwik.dev/docs/caching/
-  cacheControl({
-    // Always serve a cached response by default, up to a week stale
-    staleWhileRevalidate: 60 * 60 * 24 * 7,
-    // Max once every 5 seconds, revalidate on the server to get a fresh version of this page
-    maxAge: 5,
-  });
-};
+import Navbar from "~/components/shared/navbar";
+import { VehicleContext } from "~/context/vehicle";
+import type { VehiclesInterface } from "~/interfaces/vehicles-interface";
 
 export default component$(() => {
-  return <Slot />;
+  const vehicle = useSignal<VehiclesInterface>({
+    make: "",
+    model: "",
+    year: 0,
+    trim: "",
+    body: "",
+    engine: "",
+    hp: "",
+    seats: "",
+    fuel: "",
+    transmission: "",
+    drive: "",
+    doors: "",
+    vin: "",
+  });
+  useContextProvider(VehicleContext, vehicle);
+
+  return (
+    <>
+      <Navbar />
+      <Slot />
+    </>
+  );
 });
+
+export const onRequest: RequestHandler = ({ locale, params, redirect }) => {
+  const { lang } = params;
+  if (!lang) throw redirect(302, "/en");
+  const supportedLocales = ["en", "es", "fr"]; // Example locales
+  if (!supportedLocales.includes(lang)) throw redirect(302, "/en");
+  locale(lang); // Set the locale based on the URL parameter
+  if (!locale()) throw redirect(302, "/en");
+};

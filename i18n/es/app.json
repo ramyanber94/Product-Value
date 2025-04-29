@@ -1,0 +1,7 @@
+{
+    "form": {
+        "byVin": {
+            "body": "Introduzca un número VIN para decodificar y obtener el valor de mercado. Exclusivo para el CCG"
+        }
+    }
+}

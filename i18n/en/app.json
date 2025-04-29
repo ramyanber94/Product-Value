@@ -1,0 +1,7 @@
+{
+	"form": {
+		"byVin": {
+			"body": "Enter a VIN number to decode and get the market value. Exclusive for GCC"
+		}
+	}
+}

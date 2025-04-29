@@ -1,15 +1,12 @@
-import undetected_chromedriver as uc
 import time
 from bs4 import BeautifulSoup
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from model.utils.browser import ChromeDriverManager
 
 
-def extract_page_source_from_url(url: str, vin: str):
+def extract_page_source_from_url(vin: str, driver: ChromeDriverManager, url: str = "https://vehiclereport.me/get-report/"):
     """Extract page source from the given URL using undetected_chromedriver"""
-    driver = uc.Chrome(headless=True)
-
     driver.get(url)
     input_field = driver.find_element(By.XPATH, "//input[@id='vin1']")
     # insert the VIN number into the input field
@@ -77,4 +74,5 @@ def extract_page_source_from_url(url: str, vin: str):
                     break
 
     driver.quit()
+
     return {"make": make, "year": year, "model": model, "trim": trim, "engine": engine, "transmission": transmission, "seats": seats, "doors": doors, "body": body, "fuel": fuel, "hp": hp, "driveTrain": driveTrain}

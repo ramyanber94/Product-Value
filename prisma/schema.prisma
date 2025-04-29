@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Vehicle {
+  id            Int      @id @default(autoincrement())
+  make          String?
+  model         String?
+  year          Int?
+  doors         String?
+  seats         String?
+  hp            String?
+  drive         String?
+  fuel          String?
+  transmission  String?
+  body          String?
+  trim          String?
+  vin           String   @unique
+  engine        String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+

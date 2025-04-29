@@ -1,0 +1,7 @@
+{
+    "form": {
+        "byVin": {
+            "body": "Entrez un numéro VIN pour le décoder et obtenir la valeur marchande. Exclusif pour le CCG"
+        }
+    }
+}

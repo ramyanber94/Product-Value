@@ -1,0 +1,18 @@
+################################# ##############################
+## Hello This is a vin decoder app specially for the GCC region.
+## It is a simple app that takes a VIN number and returns the vehicle details.
+## It uses the Prisma ORM to connect to a SQL Server database and fetch the vehicle details.
+## It also uses the Express framework to create a REST API that can be used to fetch the vehicle details.
+## It uses the axios library to make HTTP requests to the NHTSA API to fetch the vehicle details.
+## It uses the dotenv library to load environment variables from a .env file.
+## It uses the cors library to enable CORS for the API.
+
+###################### Steps to run the app ###########################
+## 1. Clone the repository
+## 2. Install the dependencies using "npm install"
+## 3. Create a .env file same as .env.example and add your database connection string
+## 4. Run the Prisma migration using "npx prisma migrate dev --name init"
+## 5. Run the Prisma generate command using "npx prisma generate"
+## 6. Run the app using "npm start"
+
+################################### ###############################
