@@ -69,13 +69,16 @@ async def extract_info(request: UrlRequest):
     """Extract VIN, model, and engine info using queued browser access."""
     global browser_driver
     chrome_utils = ChromeDriverManager()
+    try:
+        # Check if the browser is alive
+        is_alive = chrome_utils.is_browser_alive(browser_driver)
+    except Exception as e:
 
-    # Check if the browser is still alive\
-    is_alive = chrome_utils.is_browser_alive(driver=browser_driver)
+        print(f"Error checking browser status: {e}")
+        is_alive = False
     if (is_alive is False):
-        print("⚠️ ChromeDriver is not alive. Reinitializing.")
+        ChromeDriverManager._driver = None
         browser_driver = ChromeDriverManager.open_browser()
-        print("🚀 ChromeDriver reinitialized.")
 
     future: asyncio.Future = asyncio.get_event_loop().create_future()
 

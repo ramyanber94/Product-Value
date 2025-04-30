@@ -20,7 +20,7 @@ class ChromeDriverManager:
         manager = ChromeDriverManager()
         driver_executable = manager._ensure_chromedriver()
         ChromeDriverManager._driver = uc.Chrome(
-            headless=True, driver_executable_path=driver_executable)
+            driver_executable_path=driver_executable)
         return ChromeDriverManager._driver
 
     def __init__(self):
@@ -105,7 +105,7 @@ class ChromeDriverManager:
         print("✅ ChromeDriver downloaded and extracted.")
         return self.driver_path
 
-    def is_browser_alive(driver: Chrome) -> bool:
+    def is_browser_alive(self, driver: Chrome) -> bool:
         try:
             driver.title  # simple no-op request
             return True
