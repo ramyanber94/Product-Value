@@ -102,18 +102,30 @@ def extract_page_source_from_url(vin: str, driver: ChromeDriverManager):
         driver.delete_all_cookies()
         driver.get("about:blank")  # clear current page
 
-        # marketVals = getMarketValFromContactCars(vin,driver)
-
-        return {"make": make, "year": year, "model": model, 
-                "trim": trim, "engine": engine,
-                  "transmission": transmission, 
-                  "seats": seats, "doors": doors, 
-                  "body": body, 
-                  "fuel": fuel, "hp": hp,
+        marketVals = getMarketValFromContactCars(make,model,year,driver= driver)        
+        if marketVals is not None:
+            return {"make": make, "year": year, "model": model, 
+                    "trim": trim, "engine": engine,
+                    "transmission": transmission, 
+                    "seats": seats, "doors": doors, 
+                    "body": body, 
+                    "fuel": fuel, "hp": hp,
                     "driveTrain": driveTrain,
-                    # "min": marketVals["min"], 
-                    # "avarage": marketVals["avarage"], 
-                    # "max": marketVals["max"] 
+                    "min": marketVals["min"], 
+                    "average": marketVals["average"], 
+                    "max": marketVals["max"] 
+                    }
+        else:
+            return {"make": make, "year": year, "model": model, 
+                    "trim": trim, "engine": engine,
+                    "transmission": transmission, 
+                    "seats": seats, "doors": doors, 
+                    "body": body, 
+                    "fuel": fuel, "hp": hp,
+                    "driveTrain": driveTrain,
+                    "min": "NA", 
+                    "average":"NA", 
+                    "max": "NA" 
                     }
     
     except Exception as e:

@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import APIRouter, FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from model.services.contactCarsVals import getMarketValFromContactCars
 from model.services.vehiclereport_me import extract_page_source_from_url as extract_page_source_from_url_vehiclereport
 from model.utils.browser import ChromeDriverManager
 import asyncio
@@ -10,6 +11,12 @@ import asyncio
 class UrlRequest(BaseModel):
     url: str
     vin: str
+
+class MarketValRequest(BaseModel):
+    make: str
+    model: str    
+    year: str    
+    trim: str    
 
 
 port = 8000
@@ -97,5 +104,40 @@ async def extract_info(request: UrlRequest):
         return {"success": True, "data": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/market-value")
+async def market_value(request: MarketValRequest):
+    
+    global browser_driver
+    chrome_utils = ChromeDriverManager()
+    try:
+        # Check if the browser is alive
+        is_alive = chrome_utils.is_browser_alive(browser_driver)
+    except Exception as e:
+
+        print(f"Error checking browser status: {e}")
+        is_alive = False
+    if (is_alive is False):
+        ChromeDriverManager._driver = None
+        browser_driver = ChromeDriverManager.open_browser()
+
+    future: asyncio.Future = asyncio.get_event_loop().create_future()
+
+    async def task():
+        try:
+            data = getMarketValFromContactCars(request.make,  request.model,  request.year,  driver=browser_driver)                
+            future.set_result(data)
+        except Exception as e:
+            future.set_exception(e)
+
+    await task_queue.put(task)
+
+    try:
+        result = await future
+        return {"success": True, "data": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 
 app.include_router(api_router)
