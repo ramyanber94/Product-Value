@@ -83,14 +83,14 @@ class ChromeDriverManager:
                 return self.driver_path
             else:
                 print(
-                    f"⚠️ ChromeDriver version mismatch: {local_version} != {self.driver_version}")
+                    f"⚠️ ChromeDriver version mismatch: {local_version} != {self.chrome_version}")
                 try:
                     os.remove(self.driver_path)
                 except Exception as e:
                     raise Exception(f"Failed to remove old ChromeDriver: {e}")
 
         # Download ChromeDriver
-        url = f"https://storage.googleapis.com/chrome-for-testing-public/{self.driver_version}/{self.platform_name}/chromedriver-{self.platform_name}.zip"
+        url = f"https://storage.googleapis.com/chrome-for-testing-public/{self.chrome_version}/{self.platform_name}/chromedriver-{self.platform_name}.zip"
         response = requests.get(url, stream=True)
         if response.status_code != 200:
             raise Exception(

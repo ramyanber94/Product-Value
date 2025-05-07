@@ -38,7 +38,7 @@ export default component$(() => {
 export const onRequest: RequestHandler = ({ locale, params, redirect }) => {
   const { lang } = params;
   if (!lang) throw redirect(302, "/en");
-  const supportedLocales = ["en", "es", "fr"]; // Example locales
+  const supportedLocales = ["en", "es", "fr", "ar"]; // Example locales
   if (!supportedLocales.includes(lang)) throw redirect(302, "/en");
   locale(lang); // Set the locale based on the URL parameter
   if (!locale()) throw redirect(302, "/en");
