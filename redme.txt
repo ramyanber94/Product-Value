@@ -1,11 +1,14 @@
 ################################# ##############################
-## Hello This is a vin decoder app specially for the GCC region.
-## It is a simple app that takes a VIN number and returns the vehicle details.
-## It uses the Prisma ORM to connect to a SQL Server database and fetch the vehicle details.
-## It also uses the Express framework to create a REST API that can be used to fetch the vehicle details.
-## It uses the axios library to make HTTP requests to the NHTSA API to fetch the vehicle details.
-## It uses the dotenv library to load environment variables from a .env file.
-## It uses the cors library to enable CORS for the API.
+## Hello there! This is a simple web application that uses
+## a machine learning model to predict the price of a car based on
+## its features. The app is built using Qwik for the frontend and
+## FastAPI for the backend.
+## The app uses Prisma as the ORM to connect to a PostgreSQL database
+## to store the car data and the predictions.
+## The app is designed to be simple and easy to use. The frontend
+## is built using Qwik, a new framework for building web applications
+## that is designed to be fast and efficient. The backend is built
+## using FastAPI, a modern web framework for building APIs with Python.
 
 ###################### Steps to run the app ###########################
 
