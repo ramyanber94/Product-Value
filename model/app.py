@@ -3,7 +3,7 @@ from fastapi import APIRouter, FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from model.services.ai_websearch import search_and_answer
-from model.services.vehiclereport_me import extract_page_source_from_url as extract_page_source_from_url_vehiclereport
+from model.services.vehicleDecoder import extract_page_source_from_url as extract_page_source_from_url_vehiclereport
 from model.utils.browser import ChromeDriverManager
 import asyncio
 
