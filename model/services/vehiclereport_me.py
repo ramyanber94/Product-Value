@@ -1,9 +1,6 @@
 import os
-import time
 from bs4 import BeautifulSoup
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from model.services.contactCarsVals import getMarketValFromContactCars
 from model.utils.browser import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -15,35 +12,25 @@ def extract_page_source_from_url(vin: str, driver: ChromeDriverManager):
 
     # url = .env("VEHICLE_DECODER_URL")
     try:
-        url = os.getenv("VEHICLE_DECODER_URL")        
+        url = os.getenv("VEHICLE_DECODER_URL")
 
         driver.get(url)
         # input_field = driver.find_element(By.XPATH, "//input[@id='vin1']")
 
-        input_field = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//input[@id='vin1']"))  # update selector as needed
+        WebDriverWait(driver, 10).until(
+            # update selector as needed
+            EC.element_to_be_clickable((By.XPATH, "//input[@id='vin1']"))
         )
-        
-        # insert the VIN number into the input field OLD Way
-        # input_field.click()
-        # input_field.send_keys(vin)
-        # input_field.send_keys(Keys.RETURN)
 
-        # insert the VIN number into the input field New Way
-        driver.execute_script("document.getElementById('vin1').value = arguments[0];", vin)
+        driver.execute_script(
+            "document.getElementById('vin1').value = arguments[0];", vin)
         driver.execute_script("document.getElementById('vin1').form.submit();")
-       
-        # wait till make ul is loaded OLD Way
 
-        # makeTeaser = driver.find_element(By.XPATH, "//ul[@id='teaser_make']")
-        # while not makeTeaser.is_displayed():
-        #     time.sleep(0.5)
-       
-       # wait till make ul is loaded New Way
-        makeTeaser = WebDriverWait(driver, 10).until(
-                        EC.presence_of_element_located((By.XPATH, "//ul[@id='teaser_make']"))
-                       )    
-        
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//ul[@id='teaser_make']"))
+        )
+
         soup = BeautifulSoup(driver.page_source, 'html.parser')
 
         makeUl = soup.find("ul", id="teaser_make")
@@ -102,32 +89,15 @@ def extract_page_source_from_url(vin: str, driver: ChromeDriverManager):
         driver.delete_all_cookies()
         driver.get("about:blank")  # clear current page
 
-        marketVals = getMarketValFromContactCars(make,model,year,driver= driver)        
-        if marketVals is not None:
-            return {"make": make, "year": year, "model": model, 
-                    "trim": trim, "engine": engine,
-                    "transmission": transmission, 
-                    "seats": seats, "doors": doors, 
-                    "body": body, 
-                    "fuel": fuel, "hp": hp,
-                    "driveTrain": driveTrain,
-                    "min": marketVals["min"], 
-                    "average": marketVals["average"], 
-                    "max": marketVals["max"] 
-                    }
-        else:
-            return {"make": make, "year": year, "model": model, 
-                    "trim": trim, "engine": engine,
-                    "transmission": transmission, 
-                    "seats": seats, "doors": doors, 
-                    "body": body, 
-                    "fuel": fuel, "hp": hp,
-                    "driveTrain": driveTrain,
-                    "min": "NA", 
-                    "average":"NA", 
-                    "max": "NA" 
-                    }
-    
+        return {"make": make, "year": year, "model": model,
+                "trim": trim, "engine": engine,
+                "transmission": transmission,
+                "seats": seats, "doors": doors,
+                "body": body,
+                "fuel": fuel, "hp": hp,
+                "driveTrain": driveTrain,
+                }
+
     except Exception as e:
         print(f"Error extracting page source: {e}")
         driver.delete_all_cookies()
