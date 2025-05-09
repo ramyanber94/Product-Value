@@ -19,7 +19,6 @@ import express from "express";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import cors from "cors";
-import sequelize from "./server/dbConnection";
 // import { runCrons } from "./server/crons";
 // import sequelize from "./server/dbConnection";
 
@@ -42,15 +41,6 @@ const { router, notFound } = createQwikCity({
 });
 
 const app = express();
-
-(async () => {
-  try {
-    await sequelize.sync();
-    console.log("✅ Database synced successfully");
-  } catch (error) {
-    console.error("❌ Database sync failed:", error);
-  }
-})();
 
 app.use(cors());
 
