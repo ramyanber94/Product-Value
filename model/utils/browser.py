@@ -21,9 +21,6 @@ class ChromeDriverManager:
         driver_executable = manager._ensure_chromedriver()
 
         options = uc.ChromeOptions()
-
-        # Essential arguments for headless to work with Google
-        # New headless mode is less detectable
         options.add_argument("--window-size=1920,1080")
         options.add_argument("--start-maximized")
 
@@ -106,11 +103,11 @@ class ChromeDriverManager:
         if os.path.exists(self.driver_path):
             local_version = self._get_local_chromedriver_version()
             if local_version == self.chrome_version:
-                print(f"✅ Local ChromeDriver is up-to-date: {local_version}")
+                print(f"Local ChromeDriver is up-to-date: {local_version}")
                 return self.driver_path
             else:
                 print(
-                    f"⚠️ ChromeDriver version mismatch: {local_version} != {self.chrome_version}")
+                    f"ChromeDriver version mismatch: {local_version} != {self.chrome_version}")
                 try:
                     os.remove(self.driver_path)
                 except Exception as e:
@@ -129,7 +126,7 @@ class ChromeDriverManager:
         with zipfile.ZipFile(zip_name, 'r') as zip_ref:
             zip_ref.extractall(".")
         os.remove(zip_name)
-        print("✅ ChromeDriver downloaded and extracted.")
+        print("ChromeDriver downloaded and extracted.")
         return self.driver_path
 
     def is_browser_alive(self, driver: Chrome) -> bool:
