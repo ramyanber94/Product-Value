@@ -2,7 +2,7 @@ import type { RequestHandler } from '@builder.io/qwik-city';
 import { config } from '~/speak-config';
 
 export const onRequest: RequestHandler = ({ request, locale }) => {
-    const acceptLanguage = request.headers?.get('accept-language');
+    const acceptLanguage = request.headers.get('accept-language');
 
     let lang: string | null = null;
 
