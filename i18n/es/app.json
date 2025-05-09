@@ -1,7 +1,6 @@
 {
     "form": {
-        "byVin": {
-            "body": "Introduzca un número VIN para decodificar y obtener el valor de mercado. Exclusivo para el CCG"
-        }
+        "title": "Obtén el valor de mercado de tu coche",
+        "description": "Este es un formulario sencillo para obtener el valor de mercado de tu coche"
     }
 }

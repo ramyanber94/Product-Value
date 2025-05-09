@@ -1,24 +1,36 @@
 // Navbar.tsx – Qwik Component
 
+import type { QRL } from "@builder.io/qwik";
 import { component$ } from "@builder.io/qwik";
 
-export default component$(() => {
+export interface NavbarProps {
+  onLanguageChange: QRL<(lang: string) => Promise<void>>;
+  selectedLanguage?: string;
+}
+
+export default component$((props: NavbarProps) => {
+  const { onLanguageChange, selectedLanguage } = props;
   return (
     <nav class="bg-black text-white p-4 flex justify-between items-center">
       <div class="text-2xl font-bold text-gold-500">vin4u</div>
 
       <div class="relative group">
-        <button class="px-4 py-2 bg-gold-500 text-black rounded-md focus:outline-none">
-          Menu
-        </button>
-        <div class="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-          <a href="/about" class="block px-4 py-2 hover:bg-gray-200">
-            About Us
-          </a>
-          <a href="/contact" class="block px-4 py-2 hover:bg-gray-200">
-            Contact Us
-          </a>
-        </div>
+        {/* select language */}
+        <select
+          class="bg-black text-white border border-gold-500 rounded-md p-2"
+          onChange$={(event: any) => {
+            const selectedLanguage = event.target.value;
+            // Handle language change logic here
+            onLanguageChange(selectedLanguage);
+          }}
+          value={selectedLanguage} // Set the value to the selected language
+          // selected optio
+        >
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="ar">Arabic</option>
+        </select>
       </div>
     </nav>
   );

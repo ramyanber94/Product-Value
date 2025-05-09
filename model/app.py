@@ -2,21 +2,26 @@ from contextlib import asynccontextmanager
 from fastapi import APIRouter, FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from model.services.contactCarsVals import getMarketValFromContactCars
+from model.services.ai_websearch import search_and_answer
 from model.services.vehiclereport_me import extract_page_source_from_url as extract_page_source_from_url_vehiclereport
 from model.utils.browser import ChromeDriverManager
 import asyncio
 
 
 class UrlRequest(BaseModel):
+    question: str
+
+
+class ExtractInfoUrlRequest(BaseModel):
     url: str
     vin: str
 
+
 class MarketValRequest(BaseModel):
     make: str
-    model: str    
-    year: str    
-    trim: str    
+    model: str
+    year: str
+    trim: str
 
 
 port = 8000
@@ -72,7 +77,7 @@ async def root():
 
 
 @api_router.post("/extract_info")
-async def extract_info(request: UrlRequest):
+async def extract_info(request: ExtractInfoUrlRequest):
     """Extract VIN, model, and engine info using queued browser access."""
     global browser_driver
     chrome_utils = ChromeDriverManager()
@@ -105,9 +110,10 @@ async def extract_info(request: UrlRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@api_router.post("/market-value")
-async def market_value(request: MarketValRequest):
-    
+
+@api_router.post("/market_value_ai")
+async def websearch_ai(request: UrlRequest):
+    """Extract VIN, model, and engine info using queued browser access."""
     global browser_driver
     chrome_utils = ChromeDriverManager()
     try:
@@ -125,7 +131,8 @@ async def market_value(request: MarketValRequest):
 
     async def task():
         try:
-            data = getMarketValFromContactCars(request.make,  request.model,  request.year,  driver=browser_driver)                
+            data = search_and_answer(
+                request.question, browser_driver)
             future.set_result(data)
         except Exception as e:
             future.set_exception(e)
@@ -134,10 +141,11 @@ async def market_value(request: MarketValRequest):
 
     try:
         result = await future
+        if not result:
+            raise HTTPException(status_code=404, detail="No data found.")
         return {"success": True, "data": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
 
 
 app.include_router(api_router)

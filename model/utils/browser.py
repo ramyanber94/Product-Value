@@ -15,12 +15,39 @@ class ChromeDriverManager:
     @staticmethod
     def open_browser():
         if ChromeDriverManager._driver is not None:
-            return ChromeDriverManager._driver  # Reuse existing
+            return ChromeDriverManager._driver
 
         manager = ChromeDriverManager()
         driver_executable = manager._ensure_chromedriver()
+
+        options = uc.ChromeOptions()
+
+        # Essential arguments for headless to work with Google
+        # New headless mode is less detectable
+        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--start-maximized")
+
+        # Disable automation flags
+        options.add_argument("--disable-blink-features=AutomationControlled")
+
+        # User agent and other settings
+        options.add_argument(
+            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+
         ChromeDriverManager._driver = uc.Chrome(
-            driver_executable_path=driver_executable)
+            driver_executable_path=driver_executable,
+            options=options,
+            use_subprocess=True,  # Important for headless,
+            headless=True,  # Run in headless mode,
+            enable_cdp_events=True)
+
+        # Additional stealth settings
+        ChromeDriverManager._driver.execute_cdp_cmd("Network.setUserAgentOverride", {
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        })
+        ChromeDriverManager._driver.execute_script(
+            "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+
         return ChromeDriverManager._driver
 
     def __init__(self):
