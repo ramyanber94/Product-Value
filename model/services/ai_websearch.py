@@ -3,7 +3,10 @@ import os
 from langchain_community.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage
 from serpapi import GoogleSearch
-import re
+from dotenv import load_dotenv
+
+load_dotenv()  # loads from .env automatically
+
 
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 
